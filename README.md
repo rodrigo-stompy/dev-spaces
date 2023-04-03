@@ -17,3 +17,8 @@ implementation.
 1. With a Java file open, right click on the name of a method.
 1. On the context menu, select "Add Javadoc with ChatGPT" (this option might be
    disabled while the IntelliJ project is still loading).
+
+## Samples
+
+A good sample Java file to test the plugin over can be found in
+`samples/KnightsTour.java`.
