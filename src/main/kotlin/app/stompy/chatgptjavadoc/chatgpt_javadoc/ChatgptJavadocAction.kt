@@ -19,6 +19,8 @@ class ChatgptJavadocAction : AnAction() {
 
         val start = element.getTextRange().startOffset
         val methodText = element.text
+
+        // TODO: This is a blocking call. Consider how to make this async.
         val javadoc = generateJavadoc(methodText)
 
         val editor = event.getRequiredData(CommonDataKeys.EDITOR)
@@ -60,6 +62,7 @@ class ChatgptJavadocAction : AnAction() {
             .stop(listOf("//", "*/"))
             .temperature(0.0)
             .build()
+
         // TODO: Handle no choices returned.
         return service.createCompletion(completionRequest).choices[0].text
     }
