@@ -22,3 +22,8 @@ implementation.
 
 A good sample Java file to test the plugin over can be found in
 `samples/KnightsTour.java`.
+
+## Project structure
+
+All significant (non-boilerplate) code is in
+`src/main/kotlin/app/stompy/chatgptjavadoc/chatgpt_javadoc/ChatgptJavadocAction.kt`.
