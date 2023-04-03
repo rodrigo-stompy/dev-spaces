@@ -21,7 +21,7 @@ class ChatgptJavadocAction : AnAction() {
         val methodText = element.text
 
         // TODO: This is a blocking call. Consider how to make this async.
-        val javadoc = generateJavadoc(methodText)
+        val javadoc = generateJavadocWithChatGpt(methodText)
 
         val editor = event.getRequiredData(CommonDataKeys.EDITOR)
         val project = event.getRequiredData(CommonDataKeys.PROJECT)
@@ -46,11 +46,14 @@ class ChatgptJavadocAction : AnAction() {
         return ActionUpdateThread.BGT
     }
 
-    private fun generateJavadoc(methodText: String): String? {
+    /** Uses ChatGPT to generate a JavaDoc for the selected method. */
+    private fun generateJavadocWithChatGpt(methodText: String): String? {
         // TODO: Read key from the environment. Please don't abuse my free quota!
         val service = OpenAiService("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")
         val completionRequest: CompletionRequest = CompletionRequest.builder()
             .model("text-davinci-003")
+            // TODO: Consider adding multiple actions for other prompts, e.g.:
+            //  "A concise, high quality JavaDoc"
             .prompt(
     """
     $methodText
@@ -62,8 +65,9 @@ class ChatgptJavadocAction : AnAction() {
             .echo(false)
             .user("testing")
             .n(1)
-            .maxTokens(150)
             .stop(listOf("//", "*/"))
+            // TODO: Make these params editable configurable in plugin config.
+            .maxTokens(150)
             .temperature(0.0)
             .build()
 
