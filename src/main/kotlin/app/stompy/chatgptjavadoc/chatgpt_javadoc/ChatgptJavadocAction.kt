@@ -30,7 +30,11 @@ class ChatgptJavadocAction : AnAction() {
         // Must do this document change in a write action context.
         WriteCommandAction.runWriteCommandAction(
             project
-        ) { document.insertString(start, "/**\n $javadoc*/\n") }
+        ) {
+            // TODO: The indentation in the code is not right. Consider
+            //  triggering a reformat.
+            document.insertString(start, "/**\n $javadoc*/\n")
+        }
     }
 
     override fun update(event: @NotNull AnActionEvent) {
